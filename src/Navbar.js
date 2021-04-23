@@ -11,22 +11,41 @@ import { withStyles } from "@material-ui/core/styles";
 import styles from "./styles/NavbarStyles";
 import { InputBase } from "@material-ui/core";
 import { ThemeContext } from "./contexts/ThemeContext";
+import { withLanguageContext } from "./contexts/LangContext";
+
+const emojis = {
+  french: {
+    emoji: "🇹🇫",
+  },
+  spanish: {
+    emoji: "🇪🇸",
+  },
+  english: {
+    emoji: "🇺🇸",
+  },
+};
 
 class Navbar extends Component {
   static contextType = ThemeContext;
   render() {
     const { classes } = this.props;
+    const { language } = this.props.languageContext;
+    const { emoji } = emojis[language];
+    console.log(emoji);
+    console.log(language);
     const { isDarkMode, changeDarkMode } = this.context;
     return (
       <div className={classes.root}>
         <AppBar position="static" color={isDarkMode ? "default" : "primary"}>
           <Toolbar>
             <IconButton className={classes.menuButton} colors="inherit">
-              <span>🏳️‍🌈</span>
+              <span>{emoji}</span>
             </IconButton>
-            <Typography className={classes.title} variant="h6" colors="inherit">
-              App Title
-            </Typography>
+            <Typography
+              className={classes.title}
+              variant="h6"
+              colors="inherit"
+            ></Typography>
             <Switch onClick={changeDarkMode} />
             <div className={classes.grow} />
             <div className={classes.search}>
@@ -48,4 +67,4 @@ class Navbar extends Component {
   }
 }
 
-export default withStyles(styles)(Navbar);
+export default withLanguageContext(withStyles(styles)(Navbar));
